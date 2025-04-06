@@ -285,28 +285,9 @@ class SlotMachine {
             ctx.roundRect(x - 2, reelY - 2, reelWidth + 4, this.reelHeight + 4, cornerRadius + 1);
             ctx.fill();
             
-            // Draw reel background
-            ctx.fillStyle = '#66CCCC';
-            ctx.beginPath();
-            ctx.roundRect(x, reelY, reelWidth, this.reelHeight, cornerRadius);
-            ctx.fill();
-            ctx.strokeStyle = 'transparent';
-            ctx.lineWidth = 0;
-
-            // Draw middle symbol indicator box (darkest pink)
-            const middleBoxHeight = this.symbolHeight + 4;
-            const middleBoxY = reelY + (this.reelHeight - middleBoxHeight) / 2;
-            ctx.fillStyle = '#FF6666';
-            ctx.beginPath();
-            ctx.roundRect(x - 2, middleBoxY - 2, reelWidth + 4, middleBoxHeight + 4, 5);
-            ctx.fill();
-
-            // Add subtle inner shadow at the top
-            const gradient = ctx.createLinearGradient(x, reelY, x, reelY + 20);
-            gradient.addColorStop(0, 'rgba(0,0,0,0.2)');
-            gradient.addColorStop(1, 'rgba(0,0,0,0)');
-            ctx.fillStyle = gradient;
-            ctx.fillRect(x, reelY, reelWidth, 20);
+            // Draw reels background
+            ctx.fillStyle = '#FFCCCC';
+            ctx.fillRect(x, reelY, reelWidth, this.reelHeight);
 
             // Set up clipping region for symbols
             ctx.save();
@@ -316,7 +297,7 @@ class SlotMachine {
             
             // Draw symbols in a wheel-like manner with adjusted font
             const symbolHeight = this.symbolHeight;
-            ctx.font = '44px Arial';  // Reduced from 48px (approximately 10% smaller)
+            ctx.font = '44px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
 
@@ -363,6 +344,41 @@ class SlotMachine {
 
             ctx.restore();
         }
+
+        // Draw one large indicator box across all reels
+        const totalReelWidth = (reelWidth * 3) + (spacing * 2);
+        const middleBoxHeight = this.symbolHeight + 8;
+        const middleBoxY = reelY + (this.reelHeight - middleBoxHeight) / 2 + 2; // Moved from +5 to +2 (higher)
+        const boxStartX = startX - 5; // Moved left edge 5px left
+        const boxWidth = totalReelWidth + 10; // Increased width by 10px
+
+        // Add neon glow effect
+        ctx.shadowColor = '#ffff00';  // Bright yellow
+        ctx.shadowBlur = 20;          // Keep same blur for neon effect
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+        
+        // Draw outer frame with neon color
+        ctx.strokeStyle = '#ffff00';  // Bright yellow
+        ctx.lineWidth = 4;            // Thicker line
+        ctx.beginPath();
+        ctx.roundRect(boxStartX - 4, middleBoxY - 4, boxWidth + 8, middleBoxHeight + 8, 8);
+        ctx.stroke();
+
+        // Add second glow layer for stronger effect
+        ctx.shadowColor = '#ffffa0';  // Lighter yellow
+        ctx.shadowBlur = 10;
+        
+        // Draw inner frame with brighter neon color
+        ctx.strokeStyle = '#ffffa0';  // Lighter yellow
+        ctx.lineWidth = 3;            // Thicker line
+        ctx.beginPath();
+        ctx.roundRect(boxStartX - 2, middleBoxY - 2, boxWidth + 4, middleBoxHeight + 4, 6);
+        ctx.stroke();
+
+        // Reset shadow
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
 
         // Draw lever with enhanced design and shading
         const leverX = this.x + this.width/2 + 30;
