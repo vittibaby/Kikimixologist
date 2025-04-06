@@ -1,6 +1,10 @@
-# Slot Machine Game
+# Bubu and Dudu Slot Machine Game
 
 A fun and interactive slot machine game built with HTML5 Canvas and JavaScript.
+
+## Play the Game
+
+You can play the game directly in your browser at: [https://vittibaby.github.io/bubududugame/](https://vittibaby.github.io/bubududugame/)
 
 ## Features
 
@@ -31,4 +35,11 @@ You can run the game locally by simply opening the `index.html` file in your web
 
 - HTML5 Canvas
 - JavaScript
-- CSS3 
+- CSS3
+
+## Deployment
+
+This game is deployed using GitHub Pages. To update the game:
+1. Make your changes
+2. Commit and push to the main branch
+3. The changes will automatically be reflected on the GitHub Pages site 
