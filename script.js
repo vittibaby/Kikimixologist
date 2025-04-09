@@ -1,9 +1,29 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-// Set canvas size
-canvas.width = 800;
-canvas.height = 600;
+// Set initial canvas size
+function resizeCanvas() {
+    const isMobile = window.innerWidth <= 768;
+    const maxWidth = isMobile ? window.innerWidth - 20 : 800;
+    const maxHeight = isMobile ? window.innerHeight * 0.7 : 600;
+    
+    // Maintain aspect ratio
+    const aspectRatio = 800 / 600;
+    let width = maxWidth;
+    let height = width / aspectRatio;
+    
+    if (height > maxHeight) {
+        height = maxHeight;
+        width = height * aspectRatio;
+    }
+    
+    canvas.width = width;
+    canvas.height = height;
+}
+
+// Initial resize
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
 
 // Load images
 const bubuImg = new Image();
@@ -63,7 +83,7 @@ class Button {
         
         // Draw button text
         ctx.fillStyle = '#fff';
-        ctx.font = 'bold 24px Arial';
+        ctx.font = `bold ${canvas.width * 0.03}px Arial`; // Responsive font size
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(this.text, this.x + this.width/2, this.y + this.height/2);
@@ -114,8 +134,8 @@ class Heart {
 // Slot machine properties
 class SlotMachine {
     constructor() {
-        this.width = 400;  // Keep overall width
-        this.height = 360; // Keep overall height
+        this.width = canvas.width * 0.5;  // Responsive width
+        this.height = this.width * 0.9;   // Maintain aspect ratio
         this.x = canvas.width / 2;
         this.y = canvas.height - 20;
         this.symbols = ['bubu', 'dudu', 'fries', '❤️'];
@@ -564,11 +584,11 @@ class Food {
 const foods = Array.from({ length: 15 }, () => new Food());
 const slotMachine = new SlotMachine();
 const spinButton = new Button(
-    canvas.width - 140,  // Position from right
-    canvas.height - 65,  // Position from bottom
-    120,                 // Width
-    45,                  // Height
-    'SPIN!'
+    canvas.width / 2 - 75,  // Centered horizontally
+    canvas.height - 40,      // Moved up from -30 to -40 (higher up)
+    150,                     // Width
+    40,                      // Height
+    'SPIN'
 );
 
 // Animation loop
